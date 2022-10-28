@@ -9,7 +9,7 @@ namespace BDI
 		{
 			SKSE::AllocTrampoline(1 << 4);
 
-			REL::Relocation<std::uintptr_t> CreateBehaviorGraphBase{ REL::ID(62640) };
+			REL::Relocation<std::uintptr_t> CreateBehaviorGraphBase{ REL::ID(62640) };  //sub_140AEDD10
 			auto& trampoline = SKSE::GetTrampoline();
 			_CreateBehaviorGraph = trampoline.write_call<5>(CreateBehaviorGraphBase.address() + 0x108, CreateBehaviorGraph);
 
