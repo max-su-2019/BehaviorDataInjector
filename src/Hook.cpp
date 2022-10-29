@@ -8,7 +8,7 @@ namespace BDI
 		DEBUG("{} Fired!", __FUNCTION__);
 
 		auto graph = _CreateBehaviorGraph(a_projectPath, a_fileName, a_character, a_fileID, a_projectName, a6);
-		if (graph && a_character) {
+		if (graph && a_character && !graph->variableIDMap && !graph->eventIDMap) {
 			auto handler = DataHandler::GetSingleton();
 			handler->genericObjArr.InjectVariables(graph);
 

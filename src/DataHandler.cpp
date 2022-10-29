@@ -94,20 +94,9 @@ namespace BDI
 
 	void DataHandler::BDIObjArray::InjectVariables(RE::hkbBehaviorGraph* a_graph)
 	{
-		static auto ContainsVar = [](RE::hkbBehaviorGraph* a_graph, const std::string& a_string) -> bool {
-			if (a_graph && a_graph->data && a_graph->data->stringData) {
-				for (auto const& varName : a_graph->data->stringData->variableNames) {
-					if (_strcmpi(varName.c_str(), a_string.c_str()) == 0)
-						return true;
-				}
-			}
-
-			return false;
-		};
-
-		if (a_graph && a_graph->data) {
+		if (a_graph && a_graph->data && a_graph->data->stringData && a_graph->data->stringData->variableNames.data()) {
 			for (auto const& obj : Objects[Type::kVariable]) {
-				if (obj && !ContainsVar(a_graph, obj->name)) {
+				if (obj && !a_graph->data->HasVariableString(RE::hkStringPtr::Create((obj->name)))) {
 					switch (obj->type) {
 					case BDIDataTypes::kBool:
 						a_graph->data->AddBoolVariable(RE::hkStringPtr::Create(obj->name), obj->value.b);
