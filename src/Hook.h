@@ -2,23 +2,26 @@
 
 namespace BDI
 {
-	class CreateBehaviorGraphHook
+	class hkbSymbolIdMap;
+	class hkbSymbolLinker;
+
+	class CreateSymbolIdMapHook
 	{
 	public:
 		static void InstallHook()
 		{
 			SKSE::AllocTrampoline(1 << 4);
 
-			REL::Relocation<std::uintptr_t> CreateBehaviorGraphBase{ REL::ID(62640) };  //sub_140AEDD10
+			REL::Relocation<std::uintptr_t> CreateSymbolIdMapBase{ REL::ID(62640) };
 			auto& trampoline = SKSE::GetTrampoline();
-			_CreateBehaviorGraph = trampoline.write_call<5>(CreateBehaviorGraphBase.address() + 0x108, CreateBehaviorGraph);
+			_CreateSymbolIdMap = trampoline.write_call<5>(CreateSymbolIdMapBase.address() + 0x22A, CreateSymbolIdMap);
 
 			INFO("{} Done!", __FUNCTION__);
 		}
 
 	private:
-		static RE::hkbBehaviorGraph* CreateBehaviorGraph(const char* a_projectPath, const char* a_fileName, RE::hkbCharacter* a_character, RE::BSResource::ID* a_fileID, const RE::BSFixedString& a_projectName, void* a6);
+		static hkbSymbolIdMap* CreateSymbolIdMap(RE::hkbBehaviorGraph* a_masterGraph, const RE::BSScrapArray<RE::hkbBehaviorGraph*>& a_graphArr, const char* a_projectPath, RE::hkbCharacter* a_character, hkbSymbolLinker* eventLinker, hkbSymbolLinker* variableLinker);
 
-		static inline REL::Relocation<decltype(CreateBehaviorGraph)> _CreateBehaviorGraph;
+		static inline REL::Relocation<decltype(CreateSymbolIdMap)> _CreateSymbolIdMap;
 	};
 }

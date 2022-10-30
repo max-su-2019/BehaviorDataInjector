@@ -60,13 +60,7 @@ namespace BDI
 				auto js = json::parse(std::ifstream(fileName));
 				for (auto& element : js) {
 					auto obj = element.get<BDIObject>();
-					if (obj.projectNames.empty())
-						genericObjArr.AddObject(obj);
-					else {
-						for (auto name : obj.projectNames) {
-							objMap[name].AddObject(obj);
-						}
-					}
+					objMap[obj.projectPath].AddObject(obj);
 				}
 			}
 		} catch (const json::exception& ex) {
@@ -96,7 +90,7 @@ namespace BDI
 	{
 		if (a_graph && a_graph->data && a_graph->data->stringData && a_graph->data->stringData->variableNames.data()) {
 			for (auto const& obj : Objects[Type::kVariable]) {
-				if (obj && !a_graph->data->HasVariableString(RE::hkStringPtr::Create((obj->name)))) {
+				if (obj) {
 					switch (obj->type) {
 					case BDIDataTypes::kBool:
 						a_graph->data->AddBoolVariable(RE::hkStringPtr::Create(obj->name), obj->value.b);
@@ -118,4 +112,13 @@ namespace BDI
 		}
 	}
 
+	void DataHandler::BDIObjArray::InjectEvents(RE::hkbBehaviorGraph* a_graph)
+	{
+		if (a_graph && a_graph->data && a_graph->data->stringData && a_graph->data->stringData->eventNames.data()) {
+			for (auto const& obj : Objects[Type::kEvent]) {
+				if (obj)
+					a_graph->data->AddEvent(RE::hkStringPtr::Create(obj->name));
+			}
+		}
+	}
 }

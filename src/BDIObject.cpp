@@ -6,7 +6,7 @@ namespace BDI
 	{
 		static DKUtil::model::enumeration<BDIDataTypes, std::uint32_t> BDITypeEnumTbl;
 
-		j.at("projectNames").get_to(a_data.projectNames);
+		j.at("projectPath").get_to(a_data.projectPath);
 
 		auto typeName = j.at("type").get<std::string>();
 		auto enumType = BDITypeEnumTbl.from_string(typeName, false);

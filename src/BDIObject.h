@@ -21,7 +21,7 @@ namespace BDI
 		};
 
 	private:
-		std::vector<std::string> projectNames;
+		std::string projectPath;
 
 		DataTypes type = DataTypes::kNone;
 

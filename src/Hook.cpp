@@ -3,20 +3,25 @@
 
 namespace BDI
 {
-	RE::hkbBehaviorGraph* CreateBehaviorGraphHook::CreateBehaviorGraph(const char* a_projectPath, const char* a_fileName, RE::hkbCharacter* a_character, RE::BSResource::ID* a_fileID, const RE::BSFixedString& a_projectName, void* a6)
+
+	hkbSymbolIdMap* CreateSymbolIdMapHook::CreateSymbolIdMap(RE::hkbBehaviorGraph* a_masterGraph, const RE::BSScrapArray<RE::hkbBehaviorGraph*>& a_graphArr, const char* a_projectPath, RE::hkbCharacter* a_character, hkbSymbolLinker* eventLinker, hkbSymbolLinker* variableLinker)
 	{
 		DEBUG("{} Fired!", __FUNCTION__);
 
-		auto graph = _CreateBehaviorGraph(a_projectPath, a_fileName, a_character, a_fileID, a_projectName, a6);
-		if (graph && a_character && !graph->variableIDMap && !graph->eventIDMap) {
-			auto handler = DataHandler::GetSingleton();
-			handler->genericObjArr.InjectVariables(graph);
+		if (a_masterGraph && a_character && a_masterGraph->data) {
+			const std::string path = a_projectPath;
+			auto dataHandler = DataHandler::GetSingleton();
+			for (auto pair : dataHandler->objMap) {
+				if (path.starts_with(pair.first)) {
+					pair.second.InjectVariables(a_masterGraph);
 
-			auto it = handler->objMap.find(a_projectName.c_str());
-			if (it != handler->objMap.end())
-				it->second.InjectVariables(graph);
+					for (auto graph : a_graphArr) {
+						if (graph)
+							pair.second.InjectEvents(graph);
+					}
+				}
+			}
 		}
-
-		return graph;
+		return _CreateSymbolIdMap(a_masterGraph, a_graphArr, a_projectPath, a_character, eventLinker, variableLinker);
 	}
 }

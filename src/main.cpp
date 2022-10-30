@@ -39,7 +39,7 @@ DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_skse)
 	// do stuff
 
 	BDI::DataHandler::GetSingleton();
-	BDI::CreateBehaviorGraphHook::InstallHook();
+	BDI::CreateSymbolIdMapHook::InstallHook();
 
 	return true;
 }

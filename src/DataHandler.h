@@ -14,10 +14,14 @@ namespace BDI
 				kTotal
 			};
 
-			void AddObject(const BDIObject& a_obj);
 			void InjectVariables(RE::hkbBehaviorGraph* a_graph);
+			void InjectEvents(RE::hkbBehaviorGraph* a_graph);
+
+			friend class DataHandler;
 
 		private:
+			void AddObject(const BDIObject& a_obj);
+
 			std::vector<std::shared_ptr<BDIObject>> Objects[Type::kTotal];
 		};
 
@@ -28,7 +32,6 @@ namespace BDI
 			return std::addressof(singleton);
 		}
 
-		BDIObjArray genericObjArr;
 		std::map<std::string, BDIObjArray> objMap;
 
 	private:
