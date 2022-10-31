@@ -9,15 +9,15 @@ namespace BDI
 		DEBUG("{} Fired!", __FUNCTION__);
 
 		if (a_masterGraph && a_character && a_masterGraph->data) {
-			const std::string path = a_projectPath;
 			auto dataHandler = DataHandler::GetSingleton();
-			for (auto pair : dataHandler->objMap) {
-				if (path.starts_with(pair.first)) {
-					pair.second.InjectVariables(a_masterGraph);
-
+			auto objArr = dataHandler->get_subpaths(a_projectPath);
+			if (!objArr.empty()) {
+				DEBUG("Injecting Data for project: \"{}\" in path \"{}\"", a_masterGraph->name.c_str(), a_projectPath);
+				for (auto& obj : objArr) {
+					obj.InjectVariables(a_masterGraph);
 					for (auto graph : a_graphArr) {
 						if (graph)
-							pair.second.InjectEvents(graph);
+							obj.InjectEvents(graph);
 					}
 				}
 			}

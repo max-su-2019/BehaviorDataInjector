@@ -13,7 +13,7 @@ include(GNUInstallDirs)
 # info
 project(
 	BehaviorDataInjector
-	VERSION 0.0.5
+	VERSION 0.1.1
 	LANGUAGES CXX
 )
 

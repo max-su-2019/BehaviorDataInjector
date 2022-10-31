@@ -4,8 +4,6 @@ namespace BDI
 {
 	void from_json(const json& j, BDIObject& a_data)
 	{
-		static DKUtil::model::enumeration<BDIDataTypes, std::uint32_t> BDITypeEnumTbl;
-
 		j.at("projectPath").get_to(a_data.projectPath);
 
 		auto typeName = j.at("type").get<std::string>();

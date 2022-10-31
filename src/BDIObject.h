@@ -31,5 +31,7 @@ namespace BDI
 	};
 	using BDIDataTypes = BDIObject::DataTypes;
 
+	static DKUtil::model::enumeration<BDIDataTypes, std::uint32_t> BDITypeEnumTbl;
+
 	void from_json(const json& j, BDIObject& a_data);
 }

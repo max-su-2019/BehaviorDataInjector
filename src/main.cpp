@@ -1,3 +1,4 @@
+#include "ConsoleCommands.h"
 #include "DataHandler.h"
 #include "Hook.h"
 
@@ -38,6 +39,7 @@ DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_skse)
 
 	// do stuff
 
+	BDI::ConsoleCommands::Register();
 	BDI::DataHandler::GetSingleton();
 	BDI::CreateSymbolIdMapHook::InstallHook();
 
