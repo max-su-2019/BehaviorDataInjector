@@ -2,8 +2,13 @@
 
 namespace BDI
 {
+	static auto MainConfig = COMPILE_PROXY("BehaviorDataInjector.ini"sv);
+
 	DataHandler::DataHandler()
 	{
+		MainConfig.Bind(enableDebugLog, false);
+		MainConfig.Load();
+
 		try {
 			auto BDIFilesName = DKUtil::Config::GetAllFiles("Data\\SKSE\\Plugins\\BehaviorDataInjector"sv, ".json"sv, {}, "_BDI"sv);
 			for (const auto& fileName : BDIFilesName) {
@@ -68,7 +73,7 @@ namespace BDI
 					if (result >= 0) {
 						DEBUG("Injected a variable \"{}\" to graph \"{}\" successfully", obj->name, a_graph->name.c_str());
 					} else {
-						DEBUG("Fail to Inject a variable \"{}\" to graph \"{}\"", obj->name, a_graph->name.c_str());
+						WARN("Fail to Inject a variable \"{}\" to graph \"{}\"", obj->name, a_graph->name.c_str());
 					}
 				}
 			}
@@ -83,7 +88,7 @@ namespace BDI
 					if (a_graph->data->AddEvent(RE::hkStringPtr::Create(obj->name)) >= 0) {
 						DEBUG("Injected a event \"{}\" to graph \"{}\" successfully", obj->name, a_graph->name.c_str());
 					} else {
-						DEBUG("Fail to Inject a event \"{}\" to graph \"{}\"", obj->name, a_graph->name.c_str());
+						WARN("Fail to Inject a event \"{}\" to graph \"{}\"", obj->name, a_graph->name.c_str());
 					}
 			}
 		}

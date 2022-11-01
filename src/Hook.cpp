@@ -8,7 +8,7 @@ namespace BDI
 	{
 		DEBUG("{} Fired!", __FUNCTION__);
 
-		if (a_masterGraph && a_character && a_masterGraph->data) {
+		if (a_masterGraph && a_character && a_masterGraph->data && !a_masterGraph->eventIDMap && !a_masterGraph->variableIDMap) {
 			auto dataHandler = DataHandler::GetSingleton();
 			auto objArr = dataHandler->get_subpaths(a_projectPath);
 			if (!objArr.empty()) {

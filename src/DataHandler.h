@@ -3,6 +3,8 @@
 
 namespace BDI
 {
+	using namespace DKUtil::Alias;
+
 	class DataHandler : public dku::model::Singleton<DataHandler>
 	{
 		friend dku::model::Singleton<DataHandler>;
@@ -29,20 +31,15 @@ namespace BDI
 
 		DataHandler();
 
-		bool istarts_with(std::string_view a_str1, std::string_view a_str2)
-		{
-			return std::ranges::starts_with(a_str1, a_str2, [=](char ch1, char ch2) {
-				return std::toupper(ch1) == std::toupper(ch2);
-			});
-		}
-
 	public:
 		[[nodiscard]] auto get_subpaths(std::string_view a_fullPath) noexcept
 		{
-			return objMap | std::views::filter([=](auto& pair) { return istarts_with(a_fullPath, pair.first); }) | std::views::transform([](auto& pair) -> auto& { return pair.second; });
+			return objMap | std::views::filter([=](auto& pair) { return DKUtil::string::istarts_with(a_fullPath, pair.first); }) | std::views::transform([](auto& pair) -> auto& { return pair.second; });
 		}
 
 		std::unordered_map<std::string, BDIObjArray> objMap;
+
+		Boolean enableDebugLog{ "EnableDebugLog", "Debug" };
 	};
 
 }

@@ -1,6 +1,4 @@
-#include "ConsoleCommands.h"
-#include "DataHandler.h"
-#include "Hook.h"
+#include "LoadGame.h"
 
 DLLEXPORT constinit auto SKSEPlugin_Version = []() noexcept {
 	SKSE::PluginVersionData data{};
@@ -38,10 +36,13 @@ DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_skse)
 	INFO("{} v{} loaded", Plugin::NAME, Plugin::Version);
 
 	// do stuff
+	auto g_message = SKSE::GetMessagingInterface();
+	if (!g_message) {
+		ERROR("Messaging Interface Not Found!");
+		return false;
+	}
 
-	BDI::ConsoleCommands::Register();
-	BDI::DataHandler::GetSingleton();
-	BDI::CreateSymbolIdMapHook::InstallHook();
+	g_message->RegisterListener(BDI::EventCallback);
 
 	return true;
 }
