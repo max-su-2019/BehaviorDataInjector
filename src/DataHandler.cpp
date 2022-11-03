@@ -9,19 +9,19 @@ namespace BDI
 		MainConfig.Bind(enableDebugLog, false);
 		MainConfig.Load();
 
-		try {
-			auto BDIFilesName = DKUtil::Config::GetAllFiles("Data\\SKSE\\Plugins\\BehaviorDataInjector"sv, ".json"sv, {}, "_BDI"sv);
-			for (const auto& fileName : BDIFilesName) {
-				INFO("Parsing BDI Data In \"{}\"", fileName);
+		auto BDIFilesName = DKUtil::Config::GetAllFiles("Data\\SKSE\\Plugins\\BehaviorDataInjector"sv, ".json"sv, {}, "_BDI"sv);
+		for (const auto& fileName : BDIFilesName) {
+			INFO("Parsing BDI Data In \"{}\"", fileName);
+			try {
 				auto js = json::parse(std::ifstream(fileName));
 				for (auto& element : js) {
 					auto obj = element.get<BDIObject>();
 					std::ranges::for_each(obj.projectPath, [](char& c) { c = std::toupper(c); });
 					objMap[obj.projectPath].AddObject(obj);
 				}
+			} catch (const json::exception& ex) {
+				ERROR("Caught expection when parsing file \"{}\":\n {}", fileName, ex.what());
 			}
-		} catch (const json::exception& ex) {
-			ERROR("{}", ex.what());
 		}
 	}
 
