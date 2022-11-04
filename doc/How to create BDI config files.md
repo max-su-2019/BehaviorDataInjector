@@ -44,7 +44,7 @@ Inside a BDI object, there are four keys we need to assign value for:
   
 * **type**: The data type of the BDI object, there are four types are available: kInt, KBool, kFloat, kEvent.
 
-* **name**: The name of the grpah variable \ animation event.
+* **name**: The name of the grpah variable or animation event.
 
 * **value**: The initial value of the BDI object, for animation event this key is not necessary  
 <br/>
