@@ -2,7 +2,7 @@
 
 First of all, create a json format config file with suffix named "_BDI.json"(for example, "MyTestMod_BDI.json") under the path "SKSE\Plugins\BehaviorDataInjector".  
 
-Next, open the config file we created with a codes editor(I recommend Visual Studio Code) that supports json format files, and write config data for it.  
+Next, open the config file we created with a codes editor(I recommend [Visual Studio Code](https://code.visualstudio.com/)) that supports json format files, and write config data for it.  
 
 Let's take "Test_BDI.json" in BDI default files as reference, to illustrate how to write vaild config codes for BDI:
 
