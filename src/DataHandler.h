@@ -35,14 +35,14 @@ namespace BDI
 		// clang-format off
 		[[nodiscard]] auto get_subpaths(std::string_view a_fullPath) noexcept
 		{
-	        return objMap 
-            | std::views::filter([=](auto& pair) { 
-                return DKUtil::string::istarts_with(a_fullPath, pair.first) &&
-                    (a_fullPath.length() == pair.first.length() ||
-                    a_fullPath[pair.first.length()] == '\\'); 
-				}) 
-            | std::views::transform([](auto& pair) -> auto& { return pair.second; });
-		}  // clang-format on
+			return objMap 
+				| std::views::filter([=](auto& pair) { 
+				return DKUtil::string::istarts_with(a_fullPath, pair.first) &&
+				       (a_fullPath.length() == pair.first.length() ||
+				       a_fullPath[pair.first.length()] == '\\'); }) 
+				| std::views::values;
+		}
+		// clang-format on
 
 		std::unordered_map<std::string, BDIObjArray> objMap;
 
